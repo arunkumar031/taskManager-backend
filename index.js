@@ -16,13 +16,13 @@ app.listen(3000, ()=>{
 
 //Signup API
 app.post('/signup',(req,res)=>{
-    const {name,email,password}=req.body;
+    const {username,email,password}=req.body;
     const hashedPassword=bcrypt.hashSync(password, 8);
     const userId=uuidv4();
 
     db.run(
-        `INSERT INTO users (id,name,email,password) VALUES (?,?,?,?)`,
-        [userId,name,email,hashedPassword],
+        `INSERT INTO users (id,username,email,password) VALUES (?,?,?,?)`,
+        [userId,username,email,hashedPassword],
         function(err){
             if (err) return res.status(500).send({message:err});
             const token=jwt.sign({id:userId},'secret_key',{expiresIn:86400});
